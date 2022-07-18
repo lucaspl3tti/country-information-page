@@ -1,5 +1,5 @@
 <template>
-    <div class="country card" :id="countryId">
+    <div class="country card" :id="countryCode">
         <RouterLink
             :to="`/country/${countryCode}`"
             class="country-link"

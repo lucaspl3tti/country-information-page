@@ -99,10 +99,10 @@
                     <Button
                         v-for="(borderCountry, key) in borderCountries"
                         :key="key"
-                        :buttonHref="`/country/${borderCountry}`"
+                        :buttonHref="`/country/${borderCountry.code}`"
                         theme="light"
                         :additionalClasses="['border-country']"
-                    >{{ borderCountry }}</Button>
+                    >{{ borderCountry.name }}</Button>
                 </div>
             </div>
         </div>
@@ -127,7 +127,7 @@ export default{
 
     methods: {
         fetchCountryData(country) {
-            fetch(`https://restcountries.com/v3.1/name/${country}`)
+            fetch(`https://restcountries.com/v3.1/alpha/${country}`)
                 .then((response) => {
                     if (!response.ok) return alert('Country was not found and therefore could not get fetched')
 
@@ -152,13 +152,16 @@ export default{
                         return response.json()
                     })
                     .then((borderCountryData) => {
-                        return this.borderCountries.push(borderCountryData[0].name.common);
+                        return this.borderCountries.push({
+                            name: borderCountryData[0].name.common,
+                            code: borderCountryData[0].cca3
+                        });
                     });
             })
         },
 
         getCountryDetailsData() {
-            const country = this.$route.params.name;
+            const country = this.$route.params.code;
             this.fetchCountryData(country);
         }
     },

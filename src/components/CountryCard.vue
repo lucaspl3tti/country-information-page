@@ -1,7 +1,7 @@
 <template>
     <div class="country card" :id="countryId">
         <RouterLink
-            :to="`/country/${countryId}`"
+            :to="`/country/${countryCode}`"
             class="country-link"
         >
             <div class="card__image">
@@ -37,6 +37,10 @@ export default {
             default: () => []
         },
         countryId: {
+            type: String,
+            default: ''
+        },
+        countryCode: {
             type: String,
             default: ''
         },

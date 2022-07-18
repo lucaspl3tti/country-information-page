@@ -10,7 +10,7 @@ const router = createRouter({
       component: () => import('../views/HomeView.vue'),
     },
     {
-      path: "/country/:name",
+      path: "/country/:code",
       name: "Country Detail Page",
       component: () => import('../views/CountryView.vue'),
     },

@@ -32,6 +32,7 @@
                     v-for="(country, key) in this.countries"
                     :key="key"
                     :countryId="country.name.common"
+                    :countryCode="country.cca3"
                     :countryFlag="country.flags.png"
                     :countryCapital="country.capital"
                 >

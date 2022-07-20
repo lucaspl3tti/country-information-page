@@ -113,6 +113,7 @@ export default {
                 })
                 .then((data) => {
                     this.countries = data;
+                    this.countries.sort(this.compareObjectValues);
                 });
         },
 
@@ -139,6 +140,7 @@ export default {
                     }
 
                     this.searchFailed = false;
+                    this.countries.sort(this.compareObjectValues);
                 });
         },
 
@@ -162,7 +164,14 @@ export default {
                 })
                 .then((region) => {
                     this.countries = region;
+                    this.countries.sort(this.compareObjectValues);
                 });
+        },
+
+        compareObjectValues(value1, value2) {
+            if (value1.name.common > value2.name.common) return 1;
+            if (value1.name.common < value2.name.common) return -1;
+            return 0;
         },
     },
 
@@ -190,7 +199,7 @@ export default {
             top: 1px;
             height: 46px;
             width: 64px;
-            background-color: $color-white;
+            background-color: transparent;
             border: 0;
             border-radius: 5px 0 0 5px;
             color: $color-black;
@@ -223,8 +232,11 @@ export default {
 
             &__button,
             &__input {
-                background-color: $color-dark-secondary;
                 color: $color-white;
+            }
+
+            &__input {
+                background-color: $color-dark-secondary;
             }
         }
     }

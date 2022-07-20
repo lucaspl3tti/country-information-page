@@ -39,10 +39,20 @@ export default {
         }
     },
 
+    data() {
+        return {
+            elementOptions: {
+                defaultSelectClass: '.default-select',
+                showClass: 'show',
+                selectedClass: 'selected',
+            }
+        }
+    },
+
     methods: {
         createCustomSelect() {
             // get the select element with all it's options
-            this.defaultSelect = this.$el.querySelector('.default-select');
+            this.defaultSelect = this.$el.querySelector(this.elementOptions.defaultSelectClass);
             this.options = this.getFormattedOptions(this.defaultSelect.querySelectorAll('option'));
             this.selectedOption = this.options.find(option => option.selected);
 
@@ -94,7 +104,7 @@ export default {
                 const optionEl = document.createElement('li');
 
                 optionEl.classList.add('custom-select-option');
-                optionEl.classList.toggle('selected', option.selected);
+                optionEl.classList.toggle(this.elementOptions.selectedClass, option.selected);
                 optionEl.textContent = option.label;
                 optionEl.dataset.value = option.value;
 
@@ -103,14 +113,14 @@ export default {
                     const selectedCustomEl = this.$el.querySelector(`[data-value="${this.selectedOption.value}"]`);
                     const oldSelectValue = this.defaultSelect.value;
 
-                    selectedCustomEl.classList.remove('selected');
+                    selectedCustomEl.classList.remove(this.elementOptions.selectedClass);
                     this.selectValue(option.value);
-                    optionEl.classList.add('selected');
+                    optionEl.classList.add(this.elementOptions.selectedClass);
 
                     // trigger change event
                     if (oldSelectValue !== this.defaultSelect.value) this.selectHandler(this.defaultSelect);
 
-                    this.optionsCustomEl.classList.remove('show');
+                    this.optionsCustomEl.classList.remove(this.elementOptions.showClass);
                 });
 
                 this.optionsCustomEl.append(optionEl);
@@ -118,8 +128,8 @@ export default {
 
             this.customEl.append(this.optionsCustomEl);
 
-            this.labelEl.addEventListener('click', () => this.optionsCustomEl.classList.toggle('show'));
-            this.customEl.addEventListener('blur', () => this.optionsCustomEl.classList.remove('show'));
+            this.labelEl.addEventListener('click', () => this.optionsCustomEl.classList.toggle(this.elementOptions.showClass));
+            this.customEl.addEventListener('blur', () => this.optionsCustomEl.classList.remove(this.elementOptions.showClass));
         },
 
         getFormattedOptions(optionEls) {

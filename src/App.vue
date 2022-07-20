@@ -4,6 +4,54 @@ import ToggleDarkmode from '@/components/ToggleDarkmode.vue';
 export default {
     components: {
         ToggleDarkmode,
+    },
+
+    data() {
+        return {
+            app: '',
+            options: {
+                prefersDarkScheme: window.matchMedia('(prefers-color-scheme: dark)'),
+                darkmodeClass: 'app--darkmode',
+            }
+        }
+    },
+
+    methods: {
+        toggleDarkmodeSystemSettings() {
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            if (!this.options.prefersDarkScheme.matches) return this.app.classList.remove(this.options.darkmodeClass);
+
+            this.app.classList.add(this.options.darkmodeClass);
+        },
+
+        toggleDarkmodeOnTime() {
+            fetch('https://worldtimeapi.org/api/ip')
+                .then((response) => {
+                    if (!response.ok) return alert('Current Location could not get fetched');
+
+                    return response.json();
+                })
+                .then((data) => {
+                    const currentDate = new Date(data.datetime);
+                    const currentTime = currentDate.getHours();
+
+                    if (currentTime > 23 || currentTime < 0)
+                        return alert(`ERROR: currentHour with value ${currentTime} is not a valid time`);
+
+                    if (currentTime > 5 && currentTime < 20)
+                        return this.app.classList.remove(this.options.darkmodeClass);
+
+                    this.app.classList.add(this.options.darkmodeClass);
+                });
+        },
+    },
+
+    mounted() {
+        this.app = this.$el.parentElement;
+
+        this.toggleDarkmodeSystemSettings();
+        this.toggleDarkmodeOnTime();
     }
 };
 </script>

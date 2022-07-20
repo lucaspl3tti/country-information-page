@@ -247,6 +247,7 @@ export default {
         display: flex;
         flex-flow: row nowrap;
         justify-content: space-between;
+        margin-bottom: 0;
 
         .form-search {
             width: 480px;
